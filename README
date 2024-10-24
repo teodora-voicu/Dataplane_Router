@@ -1,0 +1,35 @@
+Programul implementeaza o functionalitate de rutare bazata pe tabele de rutare și ARP, 
+gestionand pachete de tip IPv4.
+
+Componentele principale sunt rtable adica tabela de rutare, continand intrarile necesare
+pentru directionarea pachetelor si arp_table adica tabela ARP care mentine o corespondenta
+intre adresele IP si adresele MAC, utilizata pentru a determina adresa MAC a urmatorului hop.
+
+
+Functionalitati Principale
+
+    Sortarea tabelului de rutare: sortat pentru a optimiza cautarea (folosim qsort)
+         celei mai bune rute. Sortarea se face în functie de masca de retea, iar în 
+         cazul mastilor egale, se compara prefixele.
+
+    Determinarea celei mai bune rute: cauta in tabela de rutare sortata cea mai buna
+         ruta pentru o adresa IP destinatie folosind cautare binara. Se returneaza intrarea 
+         corespunzatoare din tabela sau NULL daca nu se gaseste nicio ruta potrivita.
+
+    Cautarea in tabela ARP: cauta in tabela ARP pentru a gasi adresa MAC asociata 
+         unei adrese IP. Se returneaza intrarea corespunzatoare sau NULL daca nu exista.
+
+    Procesarea pachetelor:
+         Programul primeste pachete, extrage headerul Ethernet si IP, si proceseaza fiecare
+         pachet astfel:
+            Verifica ca tipul pachetului sa fie IPv4.
+            Verifica checksum-ul pentru validitate.
+            Determina cea mai buna ruta si verifica TTL-ul.
+            Decrementeaza TTL-ul si recalculeaza checksum.
+            Cauta adresa MAC pentru urmatorul hop.
+            Actualizeaza adresa MAC destinatie si trimite pachetul.
+            
+          
+Cerinte implementate: Procesul de Dirijare si Longest Prefix Match eficient.
+Punctaj pe local: 49p
+Am utilizat 1 sleepday.
