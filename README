@@ -20,7 +20,3 @@ The main components are:
   - Decrements the TTL and recalculates the checksum.
   - Looks up the MAC address for the next hop.
   - Updates the destination MAC address and sends the packet.
-
-### Implemented Requirements: Efficient Routing Process and Longest Prefix Match.
-Score on local tests: 49 points.  
-I used 1 sleepday.
