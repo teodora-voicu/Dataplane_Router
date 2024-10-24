@@ -1,35 +1,26 @@
-Programul implementeaza o functionalitate de rutare bazata pe tabele de rutare și ARP, 
-gestionand pachete de tip IPv4.
+The program implements a routing functionality based on routing tables and ARP, managing IPv4 packets.
 
-Componentele principale sunt rtable adica tabela de rutare, continand intrarile necesare
-pentru directionarea pachetelor si arp_table adica tabela ARP care mentine o corespondenta
-intre adresele IP si adresele MAC, utilizata pentru a determina adresa MAC a urmatorului hop.
+The main components are:
+- `rtable`: the routing table, which contains the necessary entries for packet forwarding.
+- `arp_table`: the ARP table, which maintains a mapping between IP addresses and MAC addresses, used to determine the MAC address of the next hop.
 
+### Main Functionalities
 
-Functionalitati Principale
+- **Sorting the routing table**: The table is sorted to optimize the search (using `qsort`) for the best route. Sorting is done based on the network mask, and in the case of equal masks, the prefixes are compared.
+  
+- **Determining the best route**: It searches the sorted routing table for the best route for a destination IP address using binary search. It returns the corresponding entry from the table or `NULL` if no suitable route is found.
 
-    Sortarea tabelului de rutare: sortat pentru a optimiza cautarea (folosim qsort)
-         celei mai bune rute. Sortarea se face în functie de masca de retea, iar în 
-         cazul mastilor egale, se compara prefixele.
+- **Searching the ARP table**: It searches the ARP table to find the MAC address associated with an IP address. It returns the corresponding entry or `NULL` if none exists.
 
-    Determinarea celei mai bune rute: cauta in tabela de rutare sortata cea mai buna
-         ruta pentru o adresa IP destinatie folosind cautare binara. Se returneaza intrarea 
-         corespunzatoare din tabela sau NULL daca nu se gaseste nicio ruta potrivita.
+- **Packet processing**:
+  The program receives packets, extracts the Ethernet and IP headers, and processes each packet as follows:
+  - Verifies that the packet type is IPv4.
+  - Checks the validity of the checksum.
+  - Determines the best route and checks the TTL.
+  - Decrements the TTL and recalculates the checksum.
+  - Looks up the MAC address for the next hop.
+  - Updates the destination MAC address and sends the packet.
 
-    Cautarea in tabela ARP: cauta in tabela ARP pentru a gasi adresa MAC asociata 
-         unei adrese IP. Se returneaza intrarea corespunzatoare sau NULL daca nu exista.
-
-    Procesarea pachetelor:
-         Programul primeste pachete, extrage headerul Ethernet si IP, si proceseaza fiecare
-         pachet astfel:
-            Verifica ca tipul pachetului sa fie IPv4.
-            Verifica checksum-ul pentru validitate.
-            Determina cea mai buna ruta si verifica TTL-ul.
-            Decrementeaza TTL-ul si recalculeaza checksum.
-            Cauta adresa MAC pentru urmatorul hop.
-            Actualizeaza adresa MAC destinatie si trimite pachetul.
-            
-          
-Cerinte implementate: Procesul de Dirijare si Longest Prefix Match eficient.
-Punctaj pe local: 49p
-Am utilizat 1 sleepday.
+### Implemented Requirements: Efficient Routing Process and Longest Prefix Match.
+Score on local tests: 49 points.  
+I used 1 sleepday.
